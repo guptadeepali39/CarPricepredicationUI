@@ -1,0 +1,104 @@
+<header class="header col-md-12">
+  <img class="col-md-1" src="../../assets/images/car_logo.jpg" style="height: 50px; vertical-align: top; margin: 10px;">
+  <div class="col-md-7" style="display: inline-block;"></div>
+  <p class="col-md-2 hiText">Hi, {{userDetails?.name}}!</p>
+  <img class="col-md-1" style="margin: 15px 0 0 0; height: 50px; width: 50px;" [src]="userDetails?.photoUrl"
+    alt="user-avatar" class="user-avatar" />
+  <button class="btn btn-danger col-md-1 mt-4" (click)="signOut()" style="float: right; margin-right: 10px;">Sign
+    out</button>
+</header>
+
+<div class="content">
+  <div class="col-md-6" style="display: inline-block;">
+    <div class="col-md-12" style="margin-top: 10px;">
+      <h4><b>Fill your car details below:</b> </h4>
+    </div>
+    <form name="newCarForm" #newCarForm="ngForm" (ngSubmit)="newCarForm.valid && onSave()">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Year of manufacturing:</label>
+          <input name="year" [(ngModel)]="carDetails.year" #year="ngModel" type="text" class="form-control"
+            placeholder="Enter year of manufacture" required>
+          <span *ngIf="!year.valid && newCarForm.submitted" class="error-text">Year of manufacturing is
+            required.</span>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Present showroom price of new car (in lacs):</label>
+          <input name="present_price" [(ngModel)]="carDetails.present_price" #present_price="ngModel" type="text"
+            class="form-control" placeholder="Enter present price" required>
+          <span *ngIf="!year.valid && newCarForm.submitted" class="error-text">Present showroom price of new car is
+            required.</span>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Mileage of car (in kms):</label>
+          <input name="kms_driven" [(ngModel)]="carDetails.kms_driven" #kms_driven="ngModel" type="text"
+            class="form-control" placeholder="Enter present price" required>
+          <span *ngIf="!kms_driven.valid && newCarForm.submitted" class="error-text">Mileage of car is
+            required.</span>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>No. of previous owners:</label>
+          <select class="form-control border-radius-none" name="owner" [(ngModel)]="carDetails.owner" #owner="ngModel"
+            [ngClass]="{ 'is-invalid': newCarForm.submitted && owner.invalid }">
+            <option *ngFor="let item of owners" [ngValue]="item">
+              {{item}}</option>
+          </select>
+          <span *ngIf="!owner.valid && newCarForm.submitted" class="error-text">No. of previous owners is
+            required.</span>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Fuel type:</label>
+          <select class="form-control border-radius-none" name="fuel_type" [(ngModel)]="carDetails.fuel_type"
+            #fuel_type="ngModel" [ngClass]="{ 'is-invalid': newCarForm.submitted && fuel_type.invalid }">
+            <option *ngFor="let item of fuels" [ngValue]="item">
+              {{item}}</option>
+          </select>
+          <span *ngIf="!fuel_type.valid && newCarForm.submitted" class="error-text">Fuel type is
+            required.</span>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Transmission type:</label>
+          <select class="form-control border-radius-none" name="transmission" [(ngModel)]="carDetails.transmission"
+            #transmission="ngModel" [ngClass]="{ 'is-invalid': newCarForm.submitted && transmission.invalid }">
+            <option *ngFor="let item of transmissions" [ngValue]="item">
+              {{item}}</option>
+          </select>
+          <span *ngIf="!transmission.valid && newCarForm.submitted" class="error-text">Transmission type is
+            required.</span>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Seller type:</label>
+          <select class="form-control border-radius-none" name="seller_type" [(ngModel)]="carDetails.seller_type"
+            #seller_type="ngModel" [ngClass]="{ 'is-invalid': newCarForm.submitted && seller_type.invalid }">
+            <option *ngFor="let item of sellerTypes" [ngValue]="item">
+              {{item}}</option>
+          </select>
+          <span *ngIf="!seller_type.valid && newCarForm.submitted" class="error-text">Seller type is
+            required.</span>
+        </div>
+      </div>
+      <div class="col-md-12 text-right">
+        <p style="display: inline-block;
+        font-weight: bold;
+        font-size: 20px;
+        text-align: left;
+        margin-right: 10px;" *ngIf="predictedPrice">The current value of your car is {{predictedPrice}} Lacs.</p>
+        <button class="btn btn-info" type="submit" name="refresh" style="margin-right: 10px;" *ngIf="predictedPrice"
+          (click)="refreshForm()">Refresh form</button>
+        <button class="btn btn-info" type="submit" name="save">Predict price</button>
+      </div>
+    </form>
+  </div>
+</div>
